@@ -23,8 +23,8 @@ const Header = () => {
           <Image
             src={"/logos/logo.png"}
             alt="Splitzy logo"
-            width={200}
-            height={60}
+            width={500}
+            height={500}
             className="h-11 w-auto object-contain"
           />
         </Link>

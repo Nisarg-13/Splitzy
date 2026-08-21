@@ -2,6 +2,7 @@
 
 **Splitzy** is a modern shared expense splitting web app — think Splitwise, built for friends, roommates, and travel groups. Track who paid what, split bills fairly, view balances in real time, and settle up when you're ready.
 
+> **Live app:** [splitzy-snowy.vercel.app](https://splitzy-snowy.vercel.app/)  
 > **Repository:** [github.com/Nisarg-13/Splitzy](https://github.com/Nisarg-13/Splitzy)
 
 ---
@@ -194,6 +195,10 @@ npx convex run seed:seedDatabase
 ---
 
 ## Deployment
+
+The app is deployed on Vercel at **[https://splitzy-snowy.vercel.app/](https://splitzy-snowy.vercel.app/)**.
+
+To deploy your own instance:
 
 1. Deploy Convex functions: `npx convex deploy`
 2. Set all environment variables in your hosting provider (e.g. Vercel)

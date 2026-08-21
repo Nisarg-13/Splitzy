@@ -5,7 +5,7 @@ import { internal } from "./_generated/api";
 export const getUserBalances = query({
   handler: async (ctx) => {
     // Use the existing getCurrentUser function instead of repeating auth logic
-    const user = await ctx.runQuery(internal.users.getCurrentUser);
+    const user = await ctx.runQuery(internal.users.getCurrentUserInternal);
 
     /* ───────────── 1‑to‑1 expenses (no groupId) ───────────── */
     const expenses = (await ctx.db.query("expenses").collect()).filter(
@@ -87,7 +87,7 @@ export const getUserBalances = query({
 // Get total spent in the current year
 export const getTotalSpent = query({
   handler: async (ctx) => {
-    const user = await ctx.runQuery(internal.users.getCurrentUser);
+    const user = await ctx.runQuery(internal.users.getCurrentUserInternal);
 
     // Get start of current year timestamp
     const currentYear = new Date().getFullYear();
@@ -125,7 +125,7 @@ export const getTotalSpent = query({
 // Get monthly spending
 export const getMonthlySpending = query({
   handler: async (ctx) => {
-    const user = await ctx.runQuery(internal.users.getCurrentUser);
+    const user = await ctx.runQuery(internal.users.getCurrentUserInternal);
 
     // Get current year
     const currentYear = new Date().getFullYear();
@@ -188,7 +188,7 @@ export const getMonthlySpending = query({
 // Get groups for the current user
 export const getUserGroups = query({
   handler: async (ctx) => {
-    const user = await ctx.runQuery(internal.users.getCurrentUser);
+    const user = await ctx.runQuery(internal.users.getCurrentUserInternal);
 
     // Get all groups
     const allGroups = await ctx.db.query("groups").collect();

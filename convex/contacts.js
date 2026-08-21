@@ -4,7 +4,7 @@ import { v } from "convex/values";
 
 export const getAllContacts = query({
     handler: async (ctx) => {
-        const currentUser = await ctx.runQuery(internal.users.getCurrentUser);
+        const currentUser = await ctx.runQuery(internal.users.getCurrentUserInternal);
 
         const expensesYouPaid = await ctx.db
             .query("expenses")
@@ -82,7 +82,7 @@ export const createGroup = mutation({
         members: v.array(v.id("users")),
     },
     handler: async (ctx, args) => {
-        const currentUser = await ctx.runQuery(internal.users.getCurrentUser);
+        const currentUser = await ctx.runQuery(internal.users.getCurrentUserInternal);
 
         if (!args.name.trim()) throw new Error("Group name cannot be empty");
 

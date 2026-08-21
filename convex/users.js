@@ -1,6 +1,6 @@
 import { v } from "convex/values";
 import { internal } from "./_generated/api";
-import { mutation, query } from "./_generated/server";
+import { internalQuery, mutation, query } from "./_generated/server";
 
 export const store = mutation({
     args: {},
@@ -39,7 +39,7 @@ export const store = mutation({
     }
 });
 
-export const getCurrentUser = query({
+export const getCurrentUserInternal = internalQuery({
     handler: async (ctx) => {
         const identity = await ctx.auth.getUserIdentity();
 
@@ -59,6 +59,12 @@ export const getCurrentUser = query({
     },
 });
 
+export const getCurrentUser = query({
+    handler: async (ctx) => {
+        return await ctx.runQuery(internal.users.getCurrentUserInternal);
+    },
+});
+
 // Search users by name or email (for adding participants)
 export const searchUsers = query({
     args: {
@@ -66,7 +72,7 @@ export const searchUsers = query({
     },
     handler: async (ctx, args) => {
         // Use centralized getCurrentUser function
-        const currentUser = await ctx.runQuery(internal.users.getCurrentUser);
+        const currentUser = await ctx.runQuery(internal.users.getCurrentUserInternal);
 
         // Don't search if query is too short
         if (args.query.length < 2) {

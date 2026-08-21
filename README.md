@@ -198,10 +198,37 @@ npx convex run seed:seedDatabase
 
 The app is deployed on Vercel at **[https://splitzy-snowy.vercel.app/](https://splitzy-snowy.vercel.app/)**.
 
-To deploy your own instance:
+### Vercel + Convex (recommended)
+
+This project uses the [Convex Vercel integration](https://docs.convex.dev/production/hosting/vercel). The build command is configured in `vercel.json`:
+
+```bash
+npx convex deploy --cmd 'npm run build'
+```
+
+**Required Vercel environment variables:**
+
+| Variable | Environment | Purpose |
+|----------|-------------|---------|
+| `CONVEX_DEPLOY_KEY` | Production | Production deploy key from Convex dashboard |
+| `CONVEX_DEPLOY_KEY` | Preview | Preview deploy key (separate from production) |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | All | Clerk frontend key |
+| `CLERK_SECRET_KEY` | All | Clerk backend key |
+| `RESEND_API_KEY` | All | Email notifications |
+| `GEMINI_API_KEY` | All | AI spending insights |
+
+**Required Convex dashboard environment variables:**
+
+| Variable | Purpose |
+|----------|---------|
+| `CLERK_JWT_ISSUER_DOMAIN` | Clerk JWT validation for Convex auth |
+
+Generate deploy keys in the [Convex dashboard](https://dashboard.convex.dev/) under **Deployment Settings → Deploy Keys**. Scope production keys to Production only in Vercel, and preview keys to Preview only.
+
+### Manual deployment
 
 1. Deploy Convex functions: `npx convex deploy`
-2. Set all environment variables in your hosting provider (e.g. Vercel)
+2. Set all environment variables in your hosting provider
 3. Build and deploy the Next.js app: `npm run build && npm start`
 4. Register the production Inngest endpoint at `/api/inngest`
 

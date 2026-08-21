@@ -198,34 +198,33 @@ npx convex run seed:seedDatabase
 
 The app is deployed on Vercel at **[https://splitzy-snowy.vercel.app/](https://splitzy-snowy.vercel.app/)**.
 
-### Vercel + Convex (recommended)
+### Vercel (frontend)
 
-This project uses the [Convex Vercel integration](https://docs.convex.dev/production/hosting/vercel). The build is handled by `scripts/vercel-build.mjs`:
-
-- **Production** (`main` branch): runs `npx convex deploy --cmd 'npm run build'`
-- **Preview** (PR branches): runs `npm run build` only, using `NEXT_PUBLIC_CONVEX_URL`
+Vercel builds only the Next.js app (`npm run build`). Convex functions are deployed separately via GitHub Actions.
 
 **Required Vercel environment variables:**
 
 | Variable | Environment | Purpose |
 |----------|-------------|---------|
-| `CONVEX_DEPLOY_KEY` | **Production only** | Production deploy key from Convex dashboard |
-| `NEXT_PUBLIC_CONVEX_URL` | Preview | Convex deployment URL for PR preview builds |
-| `NEXT_PUBLIC_CONVEX_URL` | Production | Set automatically by `convex deploy` |
+| `NEXT_PUBLIC_CONVEX_URL` | All | Your Convex deployment URL |
 | `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | All | Clerk frontend key |
 | `CLERK_SECRET_KEY` | All | Clerk backend key |
 | `RESEND_API_KEY` | All | Email notifications |
 | `GEMINI_API_KEY` | All | AI spending insights |
 
-> **Important:** In Vercel, scope `CONVEX_DEPLOY_KEY` to **Production only**. If the production deploy key is also enabled for Preview, builds fail with: *"Detected a non-production build environment and CONVEX_DEPLOY_KEY for a production Convex deployment."*
+Do **not** set `CONVEX_DEPLOY_KEY` in Vercel — it causes build failures and is not needed for the frontend build.
+
+### Convex (backend)
+
+Convex functions deploy automatically on push to `main` via GitHub Actions (`.github/workflows/deploy-convex.yml`).
+
+Add `CONVEX_DEPLOY_KEY` as a **GitHub repository secret** (production deploy key from the [Convex dashboard](https://dashboard.convex.dev/) → Deployment Settings → Deploy Keys).
 
 **Required Convex dashboard environment variables:**
 
 | Variable | Purpose |
 |----------|---------|
 | `CLERK_JWT_ISSUER_DOMAIN` | Clerk JWT validation for Convex auth |
-
-Generate the production deploy key in the [Convex dashboard](https://dashboard.convex.dev/) under **Deployment Settings → Deploy Keys**, and add it to Vercel with **Production** checked only.
 
 ### Manual deployment
 
